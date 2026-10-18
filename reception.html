@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subham & Moumita | Wedding Reception</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ruby: #4a040b;
+      --velvet-maroon: #280206;
+      --gold-primary: #d4af37;
+      --gold-light: #fbeea4;
+      --gold-deep: #916c09;
+      --parchment: #fffaf0;
+      --text-dark: #22080a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #2e0307 0%, #120102 100%);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 15px 50px;
+    }
+
+    /* THEATER CURTAIN SYSTEM */
+    #curtain-container {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      overflow: hidden;
+      pointer-events: auto;
+      transition: visibility 2.2s ease;
+    }
+
+    .curtain {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      background: repeating-linear-gradient(
+        90deg,
+        #4d050d 0px,
+        #6d0b17 25px,
+        #280206 50px,
+        #7a0c1b 75px,
+        #3e030a 100px
+      );
+      box-shadow: inset 0 0 100px rgba(0,0,0,0.85);
+      transition: transform 2s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .curtain-left {
+      transform-origin: left top;
+      border-right: 3px solid var(--gold-primary);
+    }
+
+    .curtain-right {
+      transform-origin: right top;
+      border-left: 3px solid var(--gold-primary);
+    }
+
+    /* Top Decorative Floral Valance / Toran */
+    .top-pelmet {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 55px;
+      background: linear-gradient(180deg, #1f0104 0%, #46060e 80%, transparent 100%);
+      border-bottom: 3px dashed var(--gold-primary);
+      z-index: 10002;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 6px;
+      font-size: 1.5rem;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.7));
+    }
+
+    /* Center Tie / Seal to Pull Curtains */
+    .curtain-seal-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10003;
+      text-align: center;
+      cursor: pointer;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .curtain-btn {
+      background: radial-gradient(circle, #ffe285 0%, #cf9c18 60%, #875c00 100%);
+      color: #2e0307;
+      border: 3px solid #fff;
+      padding: 20px 32px;
+      border-radius: 50px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      box-shadow: 0 0 35px rgba(212, 175, 55, 0.85), 0 10px 25px rgba(0,0,0,0.7);
+      cursor: pointer;
+      animation: ribbonGlow 2.2s infinite ease-in-out;
+    }
+
+    .curtain-subtext {
+      color: var(--gold-light);
+      margin-top: 14px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+    }
+
+    @keyframes ribbonGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.7); }
+      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(251, 238, 164, 0.95); }
+    }
+
+    /* Pulling Curtains Animation */
+    .curtain-opened .curtain-left {
+      transform: scaleX(0.04) translateX(-100%);
+    }
+    .curtain-opened .curtain-right {
+      transform: scaleX(0.04) translateX(100%);
+    }
+    .curtain-opened .curtain-seal-wrap {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+      pointer-events: none;
+    }
+    .curtain-opened {
+      pointer-events: none;
+    }
+
+    /* ROSE PETALS SHOWER */
+    #petal-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10005;
+      overflow: hidden;
+    }
+
+    .falling-petal {
+      position: absolute;
+      top: -35px;
+      background: radial-gradient(circle at 35% 35%, #ff4262, #af0b29 70%, #590010 100%);
+      border-radius: 60% 0 60% 60%;
+      transform: rotate(35deg);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      animation: tumble linear forwards;
+    }
+
+    .falling-petal.gold-foil {
+      background: radial-gradient(circle at 35% 35%, #fff6bd, #d4af37 60%, #876200 100%);
+    }
+
+    @keyframes tumble {
+      0% {
+        transform: translateY(0) rotate(0deg) rotateX(0deg) rotateY(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(50vh) translateX(30px) rotate(180deg) rotateX(120deg) rotateY(180deg);
+      }
+      100% {
+        transform: translateY(105vh) translateX(-20px) rotate(360deg) rotateX(240deg) rotateY(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* RECEPTION CARD */
+    .card-container {
+      max-width: 620px;
+      width: 100%;
+      background: var(--parchment);
+      border: 3px solid var(--gold-primary);
+      border-radius: 16px;
+      padding: 45px 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7), inset 0 0 60px rgba(212, 175, 55, 0.12);
+      position: relative;
+      text-align: center;
+      margin-top: 30px;
+      outline: 8px solid #330206;
+    }
+
+    .card-container::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1.5px solid #dfc776;
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    .invocation {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      color: var(--ruby);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .floral-divider {
+      color: var(--gold-primary);
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+    }
+
+    .couple-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.8rem;
+      color: var(--ruby);
+      line-height: 1.2;
+      margin: 5px 0 10px;
+      text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.5);
+    }
+
+    .solemnised-text {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--gold-deep);
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    .invitation-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #361a1d;
+      margin: 0 auto 30px;
+      max-width: 520px;
+    }
+
+    /* RECEPTION HIGHLIGHT BOX */
+    .gala-highlight {
+      background: linear-gradient(135deg, #fff7e4 0%, #ffeec2 100%);
+      border: 2px double var(--gold-primary);
+      border-radius: 10px;
+      padding: 24px 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(184, 134, 11, 0.15);
+    }
+
+    .gala-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.35rem;
+      color: var(--ruby);
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .gala-date {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #2b0c10;
+      margin-bottom: 4px;
+    }
+
+    .gala-time {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gold-deep);
+      letter-spacing: 1px;
+    }
+
+    /* VENUE & MAP */
+    .venue-section {
+      border-top: 1px solid #ebd9a2;
+      padding-top: 25px;
+      margin-bottom: 30px;
+    }
+
+    .venue-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ruby);
+      margin-bottom: 6px;
+    }
+
+    .venue-details {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--ruby) 0%, #750917 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: 1.5px solid var(--gold-primary);
+      box-shadow: 0 4px 12px rgba(74, 4, 11, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .map-btn:hover {
+      background: var(--gold-primary);
+      color: var(--ruby);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5);
+    }
+
+    /* FAMILY & RSVP */
+    .family-tributes {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid #ebd9a2;
+      padding-top: 22px;
+      font-size: 0.95rem;
+      color: #3b1b1e;
+    }
+
+    .family-tributes strong {
+      font-family: 'Cinzel', serif;
+      color: var(--ruby);
+      font-weight: 700;
+    }
+
+    /* FLOATING MUSIC TOGGLE */
+    .music-switch {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      background: var(--ruby);
+      color: var(--gold-light);
+      border: 2px solid var(--gold-primary);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+      z-index: 10010;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Audio File -->
+  <audio id="reception-audio" loop>
+    <source src="andriih-wedding-wedding-music-601619.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- PETAL SHOWER CANVAS -->
+  <div id="petal-canvas"></div>
+
+  <!-- GRAND CURTAIN OVERLAY -->
+  <div id="curtain-container">
+    <div class="top-pelmet">
+      <span>🌸</span><span>🌺</span><span>🌼</span><span>🏵️</span><span>🌺</span><span>🌸</span>
+    </div>
+
+    <div class="curtain curtain-left"></div>
+    <div class="curtain curtain-right"></div>
+
+    <div class="curtain-seal-wrap" onclick="unveilCelebration()">
+      <button class="curtain-btn">UNVEIL INVITATION</button>
+      <div class="curtain-subtext">Tap to draw royal curtains</div>
+    </div>
+  </div>
+
+  <!-- MAIN RECEPTION INVITATION CARD -->
+  <main class="card-container">
+    <div class="invocation">|| SRI SRI RAMAKRISHNAYA NAMAH ||</div>
+    <div class="floral-divider">❧ ❖ ☙</div>
+
+    <h1 class="couple-name">Subham &amp; Moumita</h1>
+    <div class="solemnised-text">SOLEMNISED IN MARRIAGE ON 11TH FEBRUARY 2027</div>
+
+    <p class="invitation-quote">
+      Cordially request the honour of your presence at our Wedding Reception.<br><br>
+      As we take our auspicious vows and begin a sacred journey of companionship, love, and shared dreams, your gracious blessings and warm presence will illuminate our celebration and bestow grace upon the newly married couple.
+    </p>
+
+    <!-- HIGHLIGHTED GALA TIME & DATE -->
+    <div class="gala-highlight">
+      <div class="gala-title">WEDDING RECEPTION</div>
+      <div class="gala-date">Sunday, 14th February 2027</div>
+      <div class="gala-time">06:00 PM Onwards</div>
+    </div>
+
+    <!-- VENUE & DIRECT GOOGLE MAPS PIN -->
+    <section class="venue-section">
+      <div class="venue-name">Sanai Bhawan</div>
+      <div class="venue-details">Banquet Hall &amp; Celebrations | Reception Dinner &amp; Evening Program</div>
+      <a href="https://maps.app.goo.gl/YZiQT2Q9uGnFS6jd7" target="_blank" class="map-btn">
+        📍 Navigate on Google Maps
+      </a>
+    </section>
+
+    <!-- RSVP & COMPLIMENTS -->
+    <footer class="family-tributes">
+      <p><strong>Awaiting Your Grace:</strong> Das Family</p>
+      <p><strong>RSVP:</strong> Paramesh Das &amp; Family</p>
+      <p style="margin-top: 8px; font-size: 0.85rem; color: var(--gold-deep); letter-spacing: 0.5px;">
+        WITH BEST COMPLIMENTS FROM FRIENDS, RELATIVES &amp; WELL-WISHERS
+      </p>
+    </footer>
+  </main>
+
+  <button class="music-switch" id="audioBtn" onclick="toggleAudio()" title="Toggle Background Music">🔊</button>
+
+  <script>
+    const audio = document.getElementById('reception-audio');
+
+    function dropRoseShower() {
+      const canvas = document.getElementById('petal-canvas');
+      const totalPetals = 50;
+
+      for (let i = 0; i < totalPetals; i++) {
+        setTimeout(() => {
+          const petal = document.createElement('div');
+          const isGold = Math.random() > 0.75;
+          petal.className = 'falling-petal' + (isGold ? ' gold-foil' : '');
+
+          petal.style.left = (Math.random() * 100) + 'vw';
+          const size = 15 + Math.random() * 14;
+          petal.style.width = size + 'px';
+          petal.style.height = (size * 1.35) + 'px';
+
+          const duration = 3.6 + Math.random() * 3.5;
+          petal.style.animationDuration = duration + 's';
+
+          canvas.appendChild(petal);
+
+          setTimeout(() => {
+            petal.remove();
+          }, duration * 1000);
+        }, Math.random() * 2400);
+      }
+    }
+
+    function unveilCelebration() {
+      const container = document.getElementById('curtain-container');
+      container.classList.add('curtain-opened');
+
+      // Flower shower begins immediately as curtains glide open
+      dropRoseShower();
+
+      // Audio playback starts on guest tap
+      audio.play().catch(e => {
+        console.log("Audio autoplay restricted by browser; user can toggle manually.");
+      });
+
+      // Clear the overlay once curtains finish sliding
+      setTimeout(() => {
+        container.style.visibility = 'hidden';
+      }, 2100);
+    }
+
+    function toggleAudio() {
+      const btn = document.getElementById('audioBtn');
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = '🔊';
+      } else {
+        audio.pause();
+        btn.textContent = '🔇';
+      }
+    }
+  </script>
+</body>
+</html>
