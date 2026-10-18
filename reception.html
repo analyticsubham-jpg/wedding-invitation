@@ -282,11 +282,40 @@
 
     .couple-name {
       font-family: 'Great Vibes', cursive;
-      font-size: 3.6rem;
+      font-size: 3.5rem;
       color: var(--rosewood);
-      line-height: 1.25;
       margin: 4px 0 10px;
       text-shadow: 1px 1px 2px rgba(197, 160, 89, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .couple-name .name-part {
+      display: block;
+    }
+
+    .couple-name .ampersand {
+      font-family: 'Cormorant Garamond', 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--champagne-gold);
+      margin: 4px 0;
+      opacity: 0.9;
+    }
+
+    /* On larger screens / Desktop, keep them side-by-side */
+    @media (min-width: 650px) {
+      .couple-name {
+        flex-direction: row;
+        gap: 16px;
+      }
+      .couple-name .ampersand {
+        margin: 0;
+        font-size: 2rem;
+      }
     }
 
     .solemnised-text {
@@ -462,7 +491,11 @@
     <div class="invocation">|| SRI SRI RAMAKRISHNAYA NAMAH ||</div>
     <div class="love-motif">❦ &nbsp; ♥ &nbsp; ❦</div>
 
-    <h1 class="couple-name">Subham &amp; Moumita</h1>
+    <h1 class="couple-name">
+        <span class="name-part">Subham</span>
+        <span class="ampersand">&amp;</span>
+        <span class="name-part">Moumita</span>
+      </h1>
     <div class="solemnised-text">SOLEMNISED IN MARRIAGE ON 11TH FEBRUARY 2027</div>
 
     <p class="invitation-quote">
