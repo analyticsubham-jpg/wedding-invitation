@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subham & Moumita | Wedding Celebration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --maroon: #5b0f1a;
+      --deep-crimson: #3d070f;
+      --gold: #d4af37;
+      --light-gold: #f7e7b4;
+      --cream: #fffdf9;
+      --dark-text: #2a1518;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #1a0205;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--dark-text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* GATE OVERLAY */
+    #gate-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      perspective: 1500px;
+      overflow: hidden;
+      transition: visibility 1.8s ease;
+    }
+
+    .gate-door {
+      flex: 1;
+      height: 100%;
+      background: linear-gradient(135deg, var(--deep-crimson), var(--maroon));
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.7);
+      border: 4px solid var(--gold);
+      display: flex;
+      align-items: center;
+      transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1);
+      position: relative;
+    }
+
+    .gate-left {
+      transform-origin: left center;
+      border-right: 2px solid var(--gold);
+      justify-content: flex-end;
+    }
+
+    .gate-right {
+      transform-origin: right center;
+      border-left: 2px solid var(--gold);
+      justify-content: flex-start;
+    }
+
+    /* Central Lock Seal */
+    .gate-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      text-align: center;
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .gate-seal-btn {
+      background: radial-gradient(circle, #f5d77f 0%, #c59b27 70%, #8c6a0c 100%);
+      color: #3b090f;
+      border: 3px double #fff;
+      padding: 22px 30px;
+      border-radius: 50px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), 0 10px 20px rgba(0,0,0,0.5);
+      animation: pulse 2s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    .gate-seal-hint {
+      color: var(--light-gold);
+      margin-top: 15px;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+      50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(212, 175, 55, 0.95); }
+    }
+
+    /* Open Gate state */
+    .gates-open .gate-left {
+      transform: rotateY(-110deg);
+    }
+    .gates-open .gate-right {
+      transform: rotateY(110deg);
+    }
+    .gates-open .gate-center {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+      pointer-events: none;
+    }
+    .gates-open {
+      pointer-events: none;
+    }
+
+    /* INVITATION CONTAINER */
+    .card-wrapper {
+      max-width: 650px;
+      width: 100%;
+      margin: 20px auto;
+      background: var(--cream);
+      border: 8px double var(--gold);
+      border-radius: 12px;
+      padding: 40px 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      position: relative;
+      text-align: center;
+    }
+
+    /* Traditional Header */
+    .shloka {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: var(--maroon);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .ornament {
+      color: var(--gold);
+      font-size: 1.5rem;
+      margin: 10px 0;
+    }
+
+    .couple-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.5rem;
+      color: var(--maroon);
+      line-height: 1.2;
+      margin: 10px 0 5px;
+      text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.4);
+    }
+
+    .celebration-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      letter-spacing: 3px;
+      color: #7d5b12;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    .invitation-body {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #3b2024;
+      max-width: 540px;
+      margin: 0 auto 35px;
+    }
+
+    /* ITINERARY TIMELINE */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      color: var(--maroon);
+      letter-spacing: 2px;
+      margin: 35px 0 20px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after, .section-title::before {
+      content: " ♦ ";
+      color: var(--gold);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+      margin-bottom: 35px;
+    }
+
+    .day-card {
+      background: #fff;
+      border: 1px solid #ebd9a2;
+      border-left: 5px solid var(--maroon);
+      padding: 16px 20px;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+
+    .day-date {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--maroon);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .event-item {
+      font-size: 0.95rem;
+      color: #4a282d;
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+
+    .event-time {
+      font-weight: 600;
+      color: #8c6a0c;
+    }
+
+    /* VENUE CARDS & MAP BUTTONS */
+    .venues-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 25px 0;
+    }
+
+    .venue-card {
+      background: #fff8ef;
+      border: 1.5px solid var(--gold);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .venue-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--maroon);
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .venue-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .btn-maps {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--maroon), #8a1727);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 1px solid var(--gold);
+      transition: 0.3s;
+    }
+
+    .btn-maps:hover {
+      background: var(--gold);
+      color: var(--maroon);
+    }
+
+    .rsvp-box {
+      margin-top: 35px;
+      border-top: 1px solid #ebd9a2;
+      padding-top: 20px;
+      font-size: 0.95rem;
+    }
+
+    .rsvp-box strong {
+      font-family: 'Cinzel', serif;
+      color: var(--maroon);
+    }
+
+    /* Audio Toggle */
+    .audio-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--maroon);
+      color: var(--gold);
+      border: 2px solid var(--gold);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Instrumental Shehnai Audio -->
+  <audio id="wedding-music" loop>
+    <source src="andriih-wedding-wedding-music-601619.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- GATE OVERLAY -->
+  <div id="gate-overlay">
+    <div class="gate-door gate-left"></div>
+    <div class="gate-door gate-right"></div>
+    <div class="gate-center" onclick="openWeddingGates()">
+      <button class="gate-seal-btn">OPEN INVITATION</button>
+      <div class="gate-seal-hint">Tap to Enter Celebration</div>
+    </div>
+  </div>
+
+  <!-- INVITATION MAIN CONTENT -->
+  <main class="card-wrapper">
+    <div class="shloka">|| SRI SRI RAMAKRISHNAYA NAMAH ||</div>
+    <div class="ornament">❖ ❖ ❖</div>
+    
+    <h1 class="couple-title">Subham &amp; Moumita</h1>
+    <div class="celebration-sub">WEDDING &amp; RECEPTION CELEBRATIONS</div>
+
+    <p class="invitation-body">
+      With the auspicious grace and blessings of the Almighty and our respected elders, we cordially invite you to celebrate each traditional ritual of our holy matrimony. Your affectionate companionship, guidance, and warm presence will complete the joy of this sacred lifelong journey.
+    </p>
+
+    <!-- ITINERARY -->
+    <h2 class="section-title">ITINERARY OF CEREMONIES</h2>
+    <div class="timeline">
+      <div class="day-card">
+        <div class="day-date"><span>10 FEB 2027</span><span>WEDNESDAY</span></div>
+        <div class="event-item"><span class="event-time">10:00 AM:</span> Morning Haldi (Gaye Holud)</div>
+        <div class="event-item"><span class="event-time">06:00 PM:</span> Ganga Nimontron</div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-date"><span>11 FEB 2027</span><span>WEDDING DAY</span></div>
+        <div class="event-item"><span class="event-time">05:00 AM:</span> Dodhimongol</div>
+        <div class="event-item"><span class="event-time">10:00 AM:</span> Jol Bhora &amp; Snan</div>
+        <div class="event-item"><span class="event-time">02:30 PM:</span> Departure for Thakurganj (Borjatri)</div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-date"><span>12 FEB 2027</span><span>FRIDAY</span></div>
+        <div class="event-item"><span class="event-time">07:00 PM:</span> Welcoming Procession &amp; Bodhu Boron Ceremony</div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-date"><span>13 FEB 2027</span><span>SATURDAY</span></div>
+        <div class="event-item"><span class="event-time">01:00 PM:</span> Ghorowa Bouvat (Traditional Family Feast &amp; Bhat-Kapor)</div>
+        <div class="event-item"><span class="event-time">04:00 PM:</span> Mehendi Ceremony</div>
+        <div class="event-item"><span class="event-time">07:30 PM:</span> Sangeet &amp; Celebrations</div>
+      </div>
+
+      <div class="day-card" style="border-left-color: var(--gold); background: #fffdf5;">
+        <div class="day-date"><span>14 FEB 2027</span><span>GALA RECEPTION</span></div>
+        <div class="event-item"><span class="event-time">06:00 PM Onwards:</span> Grand Wedding Gala Reception at Sanai Bhawan</div>
+      </div>
+    </div>
+
+    <!-- VENUES & DIRECTIONS -->
+    <h2 class="section-title">EVENT LOCATIONS</h2>
+    <div class="venues-container">
+      <div class="venue-card">
+        <div class="venue-title">Home Residence (Sacred Rituals)</div>
+        <div class="venue-desc">Pre-wedding rituals, Gaye Holud &amp; Bodhu Boron</div>
+        <!-- Replace the href with your exact Google Maps pin link -->
+        <a href="https://maps.app.goo.gl/BZESDQTkcXCnpGPz5" target="_blank" class="btn-maps">📍 Open Home Location</a>
+      </div>
+
+      <div class="venue-card">
+        <div class="venue-title">Sanai Bhawan (Banquet Hall)</div>
+        <div class="venue-desc">Sunday, 14th February 2027 | 06:00 PM Onwards</div>
+        <!-- Replace the href with your Sanai Bhawan Google Maps pin link -->
+        <a href="https://maps.app.goo.gl/YZiQT2Q9uGnFS6jd7" target="_blank" class="btn-maps">📍 Navigate to Sanai Bhawan</a>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <div class="rsvp-box">
+      <p><strong>Awaiting Your Grace:</strong> Das Family</p>
+      <p style="margin-top: 6px;"><strong>RSVP:</strong> Paramesh Das &amp; Family</p>
+      <p style="margin-top: 10px; font-size: 0.85rem; color: #8c6a0c;">With Best Compliments from Friends, Relatives &amp; Well-Wishers</p>
+    </div>
+  </main>
+
+  <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="Play/Pause Music">🔊</button>
+
+  <script>
+    const music = document.getElementById('wedding-music');
+    let isPlaying = false;
+
+    function openWeddingGates() {
+      const overlay = document.getElementById('gate-overlay');
+      overlay.classList.add('gates-open');
+
+      // Browsers require user interaction to play audio
+      music.play().then(() => {
+        isPlaying = true;
+      }).catch(err => {
+        console.log("Audio autoplay was restricted, user can toggle manually.");
+      });
+
+      // Remove overlay from view after animation completes
+      setTimeout(() => {
+        overlay.style.visibility = 'hidden';
+      }, 1600);
+    }
+
+    function toggleAudio() {
+      const btn = document.getElementById('audioToggle');
+      if (music.paused) {
+        music.play();
+        btn.textContent = '🔊';
+      } else {
+        music.pause();
+        btn.textContent = '🔇';
+      }
+    }
+  </script>
+</body>
+</html>
