@@ -54,7 +54,7 @@
       border: 4px solid var(--gold);
       display: flex;
       align-items: center;
-      transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1) 1.4s;
+      transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1) 1.2s;
       position: relative;
     }
 
@@ -70,23 +70,26 @@
       justify-content: flex-start;
     }
 
-    /* Central Lock Seal */
+    /* Central Lock Seal (Guaranteed clickable on mobile) */
     .gate-center {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 10000;
+      z-index: 10010;
       text-align: center;
       cursor: pointer;
+      pointer-events: auto !important;
+      touch-action: manipulation;
       transition: opacity 0.4s ease, transform 0.4s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .gate-seal-btn {
       background: radial-gradient(circle, #f5d77f 0%, #c59b27 70%, #8c6a0c 100%);
       color: #3b090f;
       border: 3px double #fff;
-      padding: 22px 30px;
+      padding: 20px 32px;
       border-radius: 50px;
       font-family: 'Cinzel', serif;
       font-size: 1.1rem;
@@ -95,16 +98,18 @@
       box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), 0 10px 20px rgba(0,0,0,0.5);
       animation: pulse 2s infinite ease-in-out;
       cursor: pointer;
+      pointer-events: auto;
     }
 
     .gate-seal-hint {
       color: var(--light-gold);
-      margin-top: 15px;
+      margin-top: 14px;
       font-size: 0.85rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       font-weight: 500;
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      pointer-events: none;
     }
 
     @keyframes pulse {
@@ -112,47 +117,41 @@
       50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(212, 175, 55, 0.95); }
     }
 
-    /* BENGALI GROOM (Matching Photo: Sholar Topor, Glasses, Beard, Angrakha Kurta & Pleated Dhoti) */
+    /* BENGALI GROOM (Sholar Topor, Glasses, Beard, Angrakha Kurta & Pleated Dhoti) */
     #bengali-groom {
       position: absolute;
       bottom: -15px;
       left: -200px;
       width: 170px;
       height: 310px;
-      z-index: 10003;
-      pointer-events: none;
+      z-index: 10002;
+      pointer-events: none !important;
       filter: drop-shadow(4px 4px 18px rgba(0,0,0,0.7));
     }
 
-    /* Groom Sequence: Walk In -> Open Gate -> Turn & Exit Left */
+    /* Sequence: Walk In -> Open Gate -> Turn & Exit Left */
     .gates-open #bengali-groom {
-      animation: groomGateRoutine 3.1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+      animation: groomGateRoutine 3s forwards cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     @keyframes groomGateRoutine {
       0% {
-        /* Start from far off-screen left */
         transform: translateX(0) scale(1);
       }
       38% {
-        /* Walks to the middle of the gate */
         transform: translateX(calc(50vw + 60px)) scale(1.03);
       }
       48% {
-        /* Pushes gate latch open */
         transform: translateX(calc(50vw + 80px)) scale(1.03);
       }
       60% {
-        /* Turns towards left to walk back */
         transform: translateX(calc(50vw + 50px)) scaleX(-1) scaleY(1.02);
       }
       88% {
-        /* Steps back near left edge */
         transform: translateX(180px) scaleX(-1) scaleY(1);
         opacity: 1;
       }
       100% {
-        /* Completely leaves the screen on left */
         transform: translateX(-40px) scaleX(-1) scaleY(0.95);
         opacity: 0;
       }
@@ -168,10 +167,10 @@
     .gates-open .gate-center {
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.6);
-      pointer-events: none;
+      pointer-events: none !important;
     }
     .gates-open {
-      pointer-events: none;
+      pointer-events: none !important;
     }
 
     /* RED LOVE BALLOONS CONTAINER */
@@ -274,13 +273,41 @@
       margin: 10px 0;
     }
 
+    /* Responsive stacked couple names */
     .couple-title {
       font-family: 'Great Vibes', cursive;
       font-size: 3.5rem;
       color: var(--maroon);
-      line-height: 1.2;
-      margin: 10px 0 5px;
+      margin: 8px 0 6px;
       text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.1;
+    }
+
+    .couple-title .name-part {
+      display: block;
+    }
+
+    .couple-title .ampersand {
+      font-family: 'Playfair Display', 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--gold);
+      margin: 4px 0;
+    }
+
+    @media (min-width: 650px) {
+      .couple-title {
+        flex-direction: row;
+        gap: 16px;
+      }
+      .couple-title .ampersand {
+        margin: 0;
+        font-size: 2rem;
+      }
     }
 
     .celebration-sub {
@@ -453,17 +480,17 @@
     <div class="gate-door gate-left"></div>
     <div class="gate-door gate-right"></div>
 
-    <!-- BENGALI GROOM (Reference Photo: Sholar Topor, Spectacles, Beard, White Angrakha Punjabi & Pleated Dhoti) -->
+    <!-- BENGALI GROOM (Sholar Topor, Glasses, Beard, White Angrakha Punjabi & Pleated Dhoti) -->
     <div id="bengali-groom">
       <svg viewBox="0 0 120 220" width="100%" height="100%">
         <!-- === TOPOR (White Sholar conical crown) === -->
         <polygon points="60,2 52,18 68,18" fill="#ffffff" stroke="#c4a572" stroke-width="0.7"/>
         <polygon points="60,14 46,36 74,36" fill="#ffffff" stroke="#c4a572" stroke-width="0.7"/>
         <polygon points="60,30 38,58 82,58" fill="#ffffff" stroke="#c4a572" stroke-width="0.8"/>
-        <!-- Topor Base Band with Traditional carvings -->
+        <!-- Topor Base Band -->
         <rect x="36" y="54" width="48" height="8" rx="2" fill="#faf6ed" stroke="#b89355" stroke-width="0.8"/>
         <line x1="38" y1="58" x2="82" y2="58" stroke="#b89355" stroke-dasharray="2,2" stroke-width="0.8"/>
-        <!-- Side Shola Pom-poms / Dangles -->
+        <!-- Shola Pom-poms -->
         <circle cx="34" cy="62" r="3.5" fill="#ffffff" stroke="#b89355" stroke-width="0.6"/>
         <circle cx="86" cy="62" r="3.5" fill="#ffffff" stroke="#b89355" stroke-width="0.6"/>
 
@@ -471,11 +498,10 @@
         <circle cx="60" cy="72" r="15" fill="#f1c7a6"/>
         <path d="M45 68 Q60 62 75 68" stroke="#2b1a10" stroke-width="2" fill="none"/>
         
-        <!-- Spectacles / Glasses -->
+        <!-- Glasses -->
         <rect x="49" y="68" width="8" height="6" rx="1.5" fill="none" stroke="#221108" stroke-width="1.2"/>
         <rect x="63" y="68" width="8" height="6" rx="1.5" fill="none" stroke="#221108" stroke-width="1.2"/>
         <line x1="57" y1="71" x2="63" y2="71" stroke="#221108" stroke-width="1.2"/>
-        <!-- Eyes & Pupils -->
         <circle cx="53" cy="71" r="1.2" fill="#1b0e06"/>
         <circle cx="67" cy="71" r="1.2" fill="#1b0e06"/>
 
@@ -485,27 +511,22 @@
 
         <!-- === PUNJABI (White Angrakha Cut with Antique Copper/Gold Borders) === -->
         <path d="M44 88 L76 88 L84 148 L36 148 Z" fill="#ffffff" stroke="#d5c7b3" stroke-width="1"/>
-        <!-- Angrakha Diagonal Overlap -->
         <path d="M45 88 Q58 108 74 114 L74 148 L36 148 Z" fill="#faf8f4"/>
         <path d="M45 88 Q58 108 74 114 L74 148" stroke="#a4683c" stroke-width="2.5" fill="none"/>
         <path d="M45 88 Q58 108 74 114 L74 148" stroke="#dfb278" stroke-width="1.2" fill="none"/>
-        <!-- Left Collar Lapel -->
         <path d="M75 88 Q66 102 54 108" stroke="#a4683c" stroke-width="2" fill="none"/>
 
         <!-- Arms & Cuffs -->
         <path d="M76 90 L90 120 L83 124 L72 96 Z" fill="#ffffff" stroke="#d5c7b3" stroke-width="0.8"/>
-        <!-- Right Arm Copper Border Cuff -->
         <rect x="82" y="118" width="9" height="4" rx="1" fill="#a4683c"/>
         <circle cx="87" cy="125" r="4" fill="#f1c7a6"/>
 
-        <!-- Left Arm Reaching Out To Gate -->
         <path d="M44 90 L26 116 L32 121 L48 95 Z" fill="#ffffff" stroke="#d5c7b3" stroke-width="0.8"/>
         <rect x="25" y="113" width="9" height="4" rx="1" fill="#a4683c" transform="rotate(-25 25 113)"/>
         <circle cx="27" cy="123" r="4.2" fill="#f1c7a6"/>
 
-        <!-- === BENGALI DHOTI (Pleated fan 'Kochi Dhaad' folds matching photo) === -->
+        <!-- === BENGALI DHOTI (Pleated fan 'Kochi Dhaad') === -->
         <path d="M36 148 L84 148 L80 196 L63 196 L60 162 L57 196 L40 196 Z" fill="#fcfbf9" stroke="#d5c7b3" stroke-width="1"/>
-        <!-- Fine fan pleats radiating at the bottom -->
         <g stroke="#8f572a" stroke-width="0.9" fill="none">
           <line x1="60" y1="150" x2="60" y2="195"/>
           <line x1="60" y1="150" x2="65" y2="195"/>
@@ -515,7 +536,6 @@
           <line x1="60" y1="150" x2="50" y2="194"/>
           <line x1="60" y1="150" x2="45" y2="192"/>
         </g>
-        <!-- Horizontal pleated border line -->
         <path d="M42 192 L78 192" stroke="#a4683c" stroke-width="2.2" fill="none"/>
 
         <!-- Nagra Mojari Footwear -->
@@ -526,8 +546,9 @@
       </svg>
     </div>
 
-    <div class="gate-center" onclick="openWeddingGates()">
-      <button class="gate-seal-btn">OPEN INVITATION</button>
+    <!-- Center Button -->
+    <div class="gate-center" id="gateTrigger">
+      <button class="gate-seal-btn" type="button">OPEN INVITATION</button>
       <div class="gate-seal-hint">Tap to Enter Celebration</div>
     </div>
   </div>
@@ -537,7 +558,11 @@
     <div class="shloka">|| SRI SRI RAMAKRISHNAYA NAMAH ||</div>
     <div class="ornament">❖ ❖ ❖</div>
     
-    <h1 class="couple-title">Subham &amp; Moumita</h1>
+    <h1 class="couple-title">
+      <span class="name-part">Subham</span>
+      <span class="ampersand">&amp;</span>
+      <span class="name-part">Moumita</span>
+    </h1>
     <div class="celebration-sub">WEDDING &amp; RECEPTION CELEBRATIONS</div>
 
     <p class="invitation-body">
@@ -568,3 +593,116 @@
       </div>
 
       <div class="day-card">
+        <div class="day-date"><span>13 FEB 2027</span><span>SATURDAY</span></div>
+        <div class="event-item"><span class="event-time">01:00 PM:</span> Ghorowa Bouvat (Traditional Family Feast &amp; Bhat-Kapor)</div>
+      </div>
+
+      <div class="day-card" style="border-left-color: var(--gold); background: #fffdf5;">
+        <div class="day-date"><span>14 FEB 2027</span><span>SUNDAY</span></div>
+        <div class="event-item"><span class="event-time">06:00 PM Onwards:</span> Grand Wedding Reception at Sanai Bhawan</div>
+      </div>
+    </div>
+
+    <!-- VENUES & DIRECTIONS -->
+    <h2 class="section-title">EVENT LOCATIONS</h2>
+    <div class="venues-container">
+      <div class="venue-card">
+        <div class="venue-title">Home Residence (Sacred Rituals)</div>
+        <div class="venue-desc">Pre-wedding rituals, Gaye Holud &amp; Bodhu Boron</div>
+        <a href="https://maps.app.goo.gl/BZESDQTkcXCnpGPz5" target="_blank" class="btn-maps">📍 Open Home Location</a>
+      </div>
+
+      <div class="venue-card">
+        <div class="venue-title">Sanai Bhawan (Banquet Hall)</div>
+        <div class="venue-desc">Sunday, 14th February 2027 | 06:00 PM Onwards</div>
+        <a href="https://maps.app.goo.gl/YZiQT2Q9uGnFS6jd7" target="_blank" class="btn-maps">📍 Navigate to Sanai Bhawan</a>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <div class="rsvp-box">
+      <p><strong>Awaiting Your Grace:</strong> Das Family</p>
+      <p style="margin-top: 6px;"><strong>RSVP:</strong> Paramesh Das &amp; Family</p>
+      <p style="margin-top: 10px; font-size: 0.85rem; color: #8c6a0c;">With Best Compliments from Friends, Relatives &amp; Well-Wishers</p>
+    </div>
+  </main>
+
+  <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="Play/Pause Music">🔊</button>
+
+  <script>
+    const music = document.getElementById('wedding-music');
+    let hasOpened = false;
+
+    function releaseRedLoveBalloons() {
+      const container = document.getElementById('balloon-container');
+      const balloonCount = 35;
+
+      for (let i = 0; i < balloonCount; i++) {
+        setTimeout(() => {
+          const balloon = document.createElement('div');
+          balloon.className = 'heart-balloon';
+
+          const string = document.createElement('div');
+          string.className = 'balloon-string';
+          balloon.appendChild(string);
+
+          balloon.style.left = Math.random() * 92 + 'vw';
+          const scale = 0.75 + Math.random() * 0.55;
+          balloon.style.transform = `scale(${scale}) rotate(-45deg)`;
+
+          const duration = 5.5 + Math.random() * 4.5;
+          balloon.style.animationDuration = duration + 's';
+
+          container.appendChild(balloon);
+
+          setTimeout(() => {
+            balloon.remove();
+          }, duration * 1000);
+        }, Math.random() * 2600);
+      }
+    }
+
+    function openWeddingGates() {
+      if (hasOpened) return;
+      hasOpened = true;
+
+      const overlay = document.getElementById('gate-overlay');
+      overlay.classList.add('gates-open');
+
+      // Play audio on tap
+      music.play().catch(err => {
+        console.log("Audio autoplay was restricted; user can play via toggle button.");
+      });
+
+      // Release balloons after groom exits screen (~2.8s)
+      setTimeout(() => {
+        releaseRedLoveBalloons();
+      }, 2800);
+
+      // Hide overlay after sequence completes
+      setTimeout(() => {
+        overlay.style.visibility = 'hidden';
+      }, 3400);
+    }
+
+    // Attach listeners directly to guarantee click handling on all mobile browsers
+    const trigger = document.getElementById('gateTrigger');
+    trigger.addEventListener('click', openWeddingGates);
+    trigger.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      openWeddingGates();
+    }, { passive: false });
+
+    function toggleAudio() {
+      const btn = document.getElementById('audioToggle');
+      if (music.paused) {
+        music.play();
+        btn.textContent = '🔊';
+      } else {
+        music.pause();
+        btn.textContent = '🔇';
+      }
+    }
+  </script>
+</body>
+</html>
