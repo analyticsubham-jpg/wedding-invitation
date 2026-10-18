@@ -43,7 +43,7 @@
       display: flex;
       perspective: 1500px;
       overflow: hidden;
-      transition: visibility 2s ease;
+      transition: visibility 2.8s ease;
     }
 
     .gate-door {
@@ -54,7 +54,7 @@
       border: 4px solid var(--gold);
       display: flex;
       align-items: center;
-      transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1);
+      transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1) 0.8s;
       position: relative;
     }
 
@@ -79,7 +79,7 @@
       z-index: 10000;
       text-align: center;
       cursor: pointer;
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .gate-seal-btn {
@@ -112,6 +112,47 @@
       50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(212, 175, 55, 0.95); }
     }
 
+    /* TRADITIONAL BENGALI FIGURE (PUNJABI & DHOTI) */
+    #bengali-gentleman {
+      position: absolute;
+      bottom: -10px;
+      left: -180px;
+      width: 140px;
+      height: 250px;
+      z-index: 10002;
+      pointer-events: none;
+      transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      filter: drop-shadow(4px 4px 15px rgba(0,0,0,0.7));
+    }
+
+    /* Animation on Click: Walks in to open gates, then moves aside */
+    .gates-open #bengali-gentleman {
+      animation: walkAndOpenGate 2.6s forwards cubic-bezier(0.3, 0.1, 0.2, 1);
+    }
+
+    @keyframes walkAndOpenGate {
+      0% {
+        transform: translateX(0) scale(1);
+      }
+      35% {
+        /* Steps right to center-left near the gate latch */
+        transform: translateX(200px) translateY(-8px) scale(1.04);
+      }
+      50% {
+        /* Touches/pushes gate open with welcoming posture */
+        transform: translateX(230px) translateY(0) scale(1.04);
+      }
+      75% {
+        /* Steps aside gracefully to let guests enter */
+        transform: translateX(110px) translateY(5px) scale(0.98);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-40px) translateY(10px) scale(0.95);
+        opacity: 0;
+      }
+    }
+
     /* Open Gate state */
     .gates-open .gate-left {
       transform: rotateY(-110deg);
@@ -128,48 +169,74 @@
       pointer-events: none;
     }
 
-    /* ROSE PETALS CONTAINER & ANIMATION */
-    #petal-container {
+    /* RED LOVE BALLOONS CONTAINER */
+    #balloon-container {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 10001;
+      z-index: 10005;
       overflow: hidden;
     }
 
-    .petal {
+    .heart-balloon {
       position: absolute;
-      top: -40px;
-      width: 18px;
-      height: 24px;
-      background: radial-gradient(circle at 30% 30%, #ff4b68, #b80d2d 70%, #5b0011 100%);
-      border-radius: 50% 0 50% 50%;
+      bottom: -90px;
+      width: 44px;
+      height: 40px;
+      background: radial-gradient(circle at 35% 35%, #ff4d6d 0%, #d90429 65%, #7a0014 100%);
+      transform: rotate(-45deg);
+      border-radius: 50% 50% 0 50%;
+      box-shadow: inset 3px 3px 6px rgba(255,255,255,0.4), 0 8px 18px rgba(0,0,0,0.35);
+      animation: floatUpward linear forwards;
+    }
+
+    .heart-balloon::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 44px;
+      height: 40px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart-balloon::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -20px;
+      width: 44px;
+      height: 40px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    /* Balloon Knot & Ribbon string */
+    .balloon-string {
+      position: absolute;
+      bottom: -32px;
+      left: -2px;
+      width: 1.5px;
+      height: 36px;
+      background: rgba(255, 230, 230, 0.65);
       transform: rotate(45deg);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-      animation: fall linear forwards;
+      transform-origin: top center;
     }
 
-    .petal.gold {
-      background: radial-gradient(circle at 30% 30%, #fff2b0, #d4af37 70%, #876200 100%);
-    }
-
-    @keyframes fall {
+    @keyframes floatUpward {
       0% {
-        transform: translateY(0) rotate(0deg) rotateX(0deg) rotateY(0deg);
+        transform: translateY(0) rotate(-45deg) scale(0.85);
+        opacity: 0;
+      }
+      10% {
         opacity: 1;
       }
-      25% {
-        transform: translateY(25vh) translateX(30px) rotate(90deg) rotateX(45deg) rotateY(60deg);
-      }
       50% {
-        transform: translateY(50vh) translateX(-25px) rotate(180deg) rotateX(90deg) rotateY(120deg);
-      }
-      75% {
-        transform: translateY(75vh) translateX(35px) rotate(270deg) rotateX(135deg) rotateY(180deg);
-        opacity: 0.9;
+        transform: translateY(-60vh) translateX(30px) rotate(-35deg) scale(1);
       }
       100% {
-        transform: translateY(105vh) translateX(-15px) rotate(360deg) rotateX(180deg) rotateY(240deg);
+        transform: translateY(-120vh) translateX(-25px) rotate(-55deg) scale(1.05);
         opacity: 0;
       }
     }
@@ -369,18 +436,60 @@
 </head>
 <body>
 
-  <!-- Background Instrumental Audio -->
+  <!-- Audio File -->
   <audio id="wedding-music" loop>
     <source src="andriih-wedding-wedding-music-601619.mp3" type="audio/mp3">
   </audio>
 
-  <!-- PETAL SHOWER CONTAINER -->
-  <div id="petal-container"></div>
+  <!-- RED LOVE BALLOONS CONTAINER -->
+  <div id="balloon-container"></div>
 
   <!-- GATE OVERLAY -->
   <div id="gate-overlay">
     <div class="gate-door gate-left"></div>
     <div class="gate-door gate-right"></div>
+
+    <!-- BENGALI MAN IN PUNJABI & DHOTI -->
+    <div id="bengali-gentleman">
+      <svg viewBox="0 0 100 180" width="100%" height="100%">
+        <!-- Head & Topor / Hair -->
+        <circle cx="50" cy="24" r="12" fill="#d29977"/>
+        <path d="M40 20 Q50 10 60 20 Q50 15 40 20" fill="#2d1508"/>
+        <!-- Traditional Gold Turban/Tilak accent -->
+        <polygon points="50,6 45,16 55,16" fill="#d4af37" stroke="#b28929" stroke-width="0.5"/>
+        <circle cx="50" cy="18" r="1.5" fill="#911313"/>
+        
+        <!-- Maroon Silk Bengali Punjabi (Kurta) with Gold Embroidery -->
+        <path d="M36 36 L64 36 L70 88 L30 88 Z" fill="#6b0e1b" stroke="#d4af37" stroke-width="1.2"/>
+        <!-- Gold Kurta Button Placket & Collar -->
+        <line x1="50" y1="36" x2="50" y2="70" stroke="#d4af37" stroke-width="2"/>
+        <circle cx="50" cy="44" r="1.2" fill="#fff"/>
+        <circle cx="50" cy="52" r="1.2" fill="#fff"/>
+        <circle cx="50" cy="60" r="1.2" fill="#fff"/>
+
+        <!-- Gold & Cream Folded Uttoriyo (Stole / Chador) over Shoulder -->
+        <path d="M34 38 Q46 60 40 92 Q34 70 34 38" fill="#f4ebd0" stroke="#c59b27" stroke-width="1"/>
+        <path d="M60 42 L67 80 L63 82 L56 46 Z" fill="#f4ebd0" stroke="#c59b27" stroke-width="0.8"/>
+
+        <!-- Hands (Right hand opening / welcoming) -->
+        <path d="M64 42 L78 62 L74 66 L60 48 Z" fill="#6b0e1b"/>
+        <circle cx="78" cy="65" r="4.5" fill="#d29977"/>
+        <path d="M36 42 L24 60 L28 64 L38 48 Z" fill="#6b0e1b"/>
+        <circle cx="23" cy="62" r="4.5" fill="#d29977"/>
+
+        <!-- Traditional Cream Bengali Pleated Dhoti (Kochi Dhaad) -->
+        <path d="M30 88 L70 88 L66 148 L53 148 L50 102 L47 148 L34 148 Z" fill="#fffdf3" stroke="#dfcaa3" stroke-width="1"/>
+        <!-- Front center gold-bordered pleated Kochano fold -->
+        <path d="M47 88 L53 88 L52 142 L48 142 Z" fill="#f7edd3" stroke="#d4af37" stroke-width="0.8"/>
+        
+        <!-- Traditional Leather Nagra Mojari Shoes -->
+        <ellipse cx="36" cy="151" rx="7" ry="3.5" fill="#4d1b0d"/>
+        <polygon points="30,150 27,148 31,152" fill="#4d1b0d"/>
+        <ellipse cx="64" cy="151" rx="7" ry="3.5" fill="#4d1b0d"/>
+        <polygon points="70,150 73,148 69,152" fill="#4d1b0d"/>
+      </svg>
+    </div>
+
     <div class="gate-center" onclick="openWeddingGates()">
       <button class="gate-seal-btn">OPEN INVITATION</button>
       <div class="gate-seal-hint">Tap to Enter Celebration</div>
@@ -406,6 +515,7 @@
         <div class="day-date"><span>10 FEB 2027</span><span>WEDNESDAY</span></div>
         <div class="event-item"><span class="event-time">10:00 AM:</span> Morning Haldi (Gaye Holud)</div>
         <div class="event-item"><span class="event-time">06:00 PM:</span> Ganga Nimontron</div>
+        <div class="event-item"><span class="event-time">07:30 PM:</span> Sangeet &amp; Celebrations</div>
       </div>
 
       <div class="day-card">
@@ -424,11 +534,10 @@
         <div class="day-date"><span>13 FEB 2027</span><span>SATURDAY</span></div>
         <div class="event-item"><span class="event-time">01:00 PM:</span> Ghorowa Bouvat (Traditional Family Feast &amp; Bhat-Kapor)</div>
         <div class="event-item"><span class="event-time">04:00 PM:</span> Mehendi Ceremony</div>
-        <div class="event-item"><span class="event-time">07:30 PM:</span> Sangeet &amp; Celebrations</div>
       </div>
 
       <div class="day-card" style="border-left-color: var(--gold); background: #fffdf5;">
-        <div class="day-date"><span>14 FEB 2027</span><span>GALA RECEPTION</span></div>
+        <div class="day-date"><span>14 FEB 2027</span><span>SUNDAY</span></div>
         <div class="event-item"><span class="event-time">06:00 PM Onwards:</span> Grand Wedding Gala Reception at Sanai Bhawan</div>
       </div>
     </div>
@@ -463,31 +572,35 @@
     const music = document.getElementById('wedding-music');
     let isPlaying = false;
 
-    function createRosePetalShower() {
-      const container = document.getElementById('petal-container');
-      const petalCount = 45; // Total petals falling in shower
+    function releaseRedLoveBalloons() {
+      const container = document.getElementById('balloon-container');
+      const balloonCount = 35; // Total floating balloons
 
-      for (let i = 0; i < petalCount; i++) {
+      for (let i = 0; i < balloonCount; i++) {
         setTimeout(() => {
-          const petal = document.createElement('div');
-          petal.className = 'petal' + (Math.random() > 0.75 ? ' gold' : '');
-          
-          // Randomize horizontal placement, scale, and animation timing
-          petal.style.left = Math.random() * 100 + 'vw';
-          const size = 14 + Math.random() * 14;
-          petal.style.width = size + 'px';
-          petal.style.height = (size * 1.35) + 'px';
-          
-          const duration = 3.5 + Math.random() * 3.5;
-          petal.style.animationDuration = duration + 's';
-          
-          container.appendChild(petal);
+          const balloon = document.createElement('div');
+          balloon.className = 'heart-balloon';
 
-          // Clean up DOM node once petal finishes falling
+          // Ribbon String
+          const string = document.createElement('div');
+          string.className = 'balloon-string';
+          balloon.appendChild(string);
+
+          // Random horizontal position and size scaling
+          balloon.style.left = Math.random() * 95 + 'vw';
+          const scale = 0.75 + Math.random() * 0.55;
+          balloon.style.transform = `scale(${scale}) rotate(-45deg)`;
+
+          const duration = 5.5 + Math.random() * 4.5;
+          balloon.style.animationDuration = duration + 's';
+
+          container.appendChild(balloon);
+
+          // Clean up DOM after balloon exits top of screen
           setTimeout(() => {
-            petal.remove();
+            balloon.remove();
           }, duration * 1000);
-        }, Math.random() * 2200); // Stagger petal release across 2.2 seconds
+        }, Math.random() * 2600); // Staggered release over 2.6 seconds
       }
     }
 
@@ -495,20 +608,20 @@
       const overlay = document.getElementById('gate-overlay');
       overlay.classList.add('gates-open');
 
-      // Trigger Rose Petal Shower
-      createRosePetalShower();
+      // Trigger Red Love Balloons Floating Upward
+      releaseRedLoveBalloons();
 
-      // Play background audio
+      // Audio playback on user tap
       music.play().then(() => {
         isPlaying = true;
       }).catch(err => {
-        console.log("Audio autoplay restricted by browser; user can toggle manually.");
+        console.log("Autoplay restricted; can toggle manually.");
       });
 
-      // Hide overlay after animation finishes
+      // Clear gate overlay after animation completes
       setTimeout(() => {
         overlay.style.visibility = 'hidden';
-      }, 1800);
+      }, 2600);
     }
 
     function toggleAudio() {
