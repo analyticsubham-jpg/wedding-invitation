@@ -43,7 +43,7 @@
       display: flex;
       perspective: 1500px;
       overflow: hidden;
-      transition: visibility 1.8s ease;
+      transition: visibility 2s ease;
     }
 
     .gate-door {
@@ -128,6 +128,52 @@
       pointer-events: none;
     }
 
+    /* ROSE PETALS CONTAINER & ANIMATION */
+    #petal-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10001;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -40px;
+      width: 18px;
+      height: 24px;
+      background: radial-gradient(circle at 30% 30%, #ff4b68, #b80d2d 70%, #5b0011 100%);
+      border-radius: 50% 0 50% 50%;
+      transform: rotate(45deg);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      animation: fall linear forwards;
+    }
+
+    .petal.gold {
+      background: radial-gradient(circle at 30% 30%, #fff2b0, #d4af37 70%, #876200 100%);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg) rotateX(0deg) rotateY(0deg);
+        opacity: 1;
+      }
+      25% {
+        transform: translateY(25vh) translateX(30px) rotate(90deg) rotateX(45deg) rotateY(60deg);
+      }
+      50% {
+        transform: translateY(50vh) translateX(-25px) rotate(180deg) rotateX(90deg) rotateY(120deg);
+      }
+      75% {
+        transform: translateY(75vh) translateX(35px) rotate(270deg) rotateX(135deg) rotateY(180deg);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(105vh) translateX(-15px) rotate(360deg) rotateX(180deg) rotateY(240deg);
+        opacity: 0;
+      }
+    }
+
     /* INVITATION CONTAINER */
     .card-wrapper {
       max-width: 650px;
@@ -142,7 +188,6 @@
       text-align: center;
     }
 
-    /* Traditional Header */
     .shloka {
       font-family: 'Cinzel', serif;
       font-size: 0.9rem;
@@ -324,10 +369,13 @@
 </head>
 <body>
 
-  <!-- Background Instrumental Shehnai Audio -->
+  <!-- Background Instrumental Audio -->
   <audio id="wedding-music" loop>
     <source src="andriih-wedding-wedding-music-601619.mp3" type="audio/mp3">
   </audio>
+
+  <!-- PETAL SHOWER CONTAINER -->
+  <div id="petal-container"></div>
 
   <!-- GATE OVERLAY -->
   <div id="gate-overlay">
@@ -391,14 +439,12 @@
       <div class="venue-card">
         <div class="venue-title">Home Residence (Sacred Rituals)</div>
         <div class="venue-desc">Pre-wedding rituals, Gaye Holud &amp; Bodhu Boron</div>
-        <!-- Replace the href with your exact Google Maps pin link -->
         <a href="https://maps.app.goo.gl/BZESDQTkcXCnpGPz5" target="_blank" class="btn-maps">📍 Open Home Location</a>
       </div>
 
       <div class="venue-card">
         <div class="venue-title">Sanai Bhawan (Banquet Hall)</div>
         <div class="venue-desc">Sunday, 14th February 2027 | 06:00 PM Onwards</div>
-        <!-- Replace the href with your Sanai Bhawan Google Maps pin link -->
         <a href="https://maps.app.goo.gl/YZiQT2Q9uGnFS6jd7" target="_blank" class="btn-maps">📍 Navigate to Sanai Bhawan</a>
       </div>
     </div>
@@ -417,21 +463,52 @@
     const music = document.getElementById('wedding-music');
     let isPlaying = false;
 
+    function createRosePetalShower() {
+      const container = document.getElementById('petal-container');
+      const petalCount = 45; // Total petals falling in shower
+
+      for (let i = 0; i < petalCount; i++) {
+        setTimeout(() => {
+          const petal = document.createElement('div');
+          petal.className = 'petal' + (Math.random() > 0.75 ? ' gold' : '');
+          
+          // Randomize horizontal placement, scale, and animation timing
+          petal.style.left = Math.random() * 100 + 'vw';
+          const size = 14 + Math.random() * 14;
+          petal.style.width = size + 'px';
+          petal.style.height = (size * 1.35) + 'px';
+          
+          const duration = 3.5 + Math.random() * 3.5;
+          petal.style.animationDuration = duration + 's';
+          
+          container.appendChild(petal);
+
+          // Clean up DOM node once petal finishes falling
+          setTimeout(() => {
+            petal.remove();
+          }, duration * 1000);
+        }, Math.random() * 2200); // Stagger petal release across 2.2 seconds
+      }
+    }
+
     function openWeddingGates() {
       const overlay = document.getElementById('gate-overlay');
       overlay.classList.add('gates-open');
 
-      // Browsers require user interaction to play audio
+      // Trigger Rose Petal Shower
+      createRosePetalShower();
+
+      // Play background audio
       music.play().then(() => {
         isPlaying = true;
       }).catch(err => {
-        console.log("Audio autoplay was restricted, user can toggle manually.");
+        console.log("Audio autoplay restricted by browser; user can toggle manually.");
       });
 
-      // Remove overlay from view after animation completes
+      // Hide overlay after animation finishes
       setTimeout(() => {
         overlay.style.visibility = 'hidden';
-      }, 1600);
+      }, 1800);
     }
 
     function toggleAudio() {
